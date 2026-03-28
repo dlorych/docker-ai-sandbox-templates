@@ -42,6 +42,12 @@ docker build --platform linux/amd64 \
 > The `PROXY_CA_CERT` build arg is only needed when building inside a Docker AI sandbox
 > (which uses a TLS-intercepting proxy). It is a no-op in GitHub Actions.
 
+## MCP settings persistence
+
+MCP servers are configured at build time in `/home/agent/.claude/settings.json`. When running via `docker sandbox run`, Docker mounts the user's local `~/.claude` directory over `/home/agent/.claude`, which would normally hide the baked-in config.
+
+The image uses an entrypoint script (`/usr/local/bin/entrypoint.sh`) that runs before Claude starts and injects the `mcpServers` block into `settings.json` if it isn't already present. This ensures MCP servers are available regardless of whether the directory is mounted from the host.
+
 ## Verification
 
 ```bash

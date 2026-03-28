@@ -28,7 +28,8 @@ RUN npx --yes playwright install chromium --with-deps && \
     chmod -R o+rX /opt/playwright-browsers && \
     rm -rf /tmp/*
 
-# Configure Claude Code MCP settings
+# Configure Claude Code MCP settings as a build-time fallback (for plain docker run without mounts).
+# The entrypoint re-applies these at runtime so they survive when ~/.claude is mounted from the host.
 RUN mkdir -p /home/agent/.claude && \
     cat > /home/agent/.claude/settings.json <<'EOF'
 {
@@ -51,4 +52,10 @@ EOF
 
 RUN chown -R agent:agent /home/agent/.claude
 
+# Install entrypoint script that ensures MCP config survives runtime volume mounts
+COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
+
 USER agent
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["claude", "--dangerously-skip-permissions"]
