@@ -1,0 +1,42 @@
+version: 2
+
+updates:
+  # Keep GitHub Actions pinned SHAs up to date
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+  # Keep base image up to date for claude-playwright template
+  - package-ecosystem: "docker"
+    directory: "/templates/claude-playwright"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "claude-playwright"
+
+  # Add one docker entry per additional template, e.g.:
+  # - package-ecosystem: "docker"
+  #   directory: "/templates/claude-python"
+  #   schedule:
+  #     interval: "weekly"
+  #     day: "monday"
+  #   labels:
+  #     - "dependencies"
+  #     - "docker"
+  #     - "claude-python"
