@@ -53,9 +53,9 @@ EOF
 RUN chown -R agent:agent /home/agent/.claude
 
 # Install entrypoint script that ensures MCP config survives runtime volume mounts
+# and enables Claude Code native telemetry when OTEL_EXPORTER_OTLP_ENDPOINT is set
 COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
 
 USER agent
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["claude", "--dangerously-skip-permissions"]
+CMD ["/usr/local/bin/entrypoint.sh", "claude", "--dangerously-skip-permissions"]
