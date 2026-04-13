@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM docker/sandbox-templates:claude-code@sha256:62cff3be5ec78dbabc82b02ec36f89a2ece4809855063889e37dae747f1f6296
+FROM docker/sandbox-templates:claude-code@sha256:2585cb2770a4a50160ada65d60543b9fafa1cde0cb2068929d60fb88c184b4bf
 
 USER root
 
